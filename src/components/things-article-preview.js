@@ -17,16 +17,13 @@ export default ({ article }) => (
   //     }}
   //   />
   // </div>
-  <Link to={`/blog/${article.slug}`}>
+  <Link to={`/things/${article.slug}`}>
     <div className={styles.preview}>
       <Img alt="" fluid={article.heroImage.fluid} />
       <div className={styles.mask}>
         <h3 className={styles.previewTitle}>
           {article.title}
         </h3>
-        <p className={styles.previewTitle}>
-          {article.tags}
-        </p>
       </div>
     </div>
   </Link>

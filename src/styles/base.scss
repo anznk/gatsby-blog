@@ -11,7 +11,7 @@ body {
   font-size: 1em;
   line-height: 1.65;
   color: #373F49;
-  background: #eee;
+  background: white;
   margin: 0;
 }
 
@@ -65,8 +65,11 @@ a {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-  .list-inline li {
+  li{
     display: inline-block;
   }
+}
+
+.next-link {
+  text-align: right;
+}

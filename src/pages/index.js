@@ -1,26 +1,29 @@
 import React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
 import Hero from '../components/hero'
 import Layout from '../components/layout'
 import ArticlePreview from '../components/article-preview'
+import ThingsArticlePreview from '../components/things-article-preview'
 
 class RootIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
+    const thingsPosts = get(this, 'props.data.allContentfulThingsPost.edges')
     const [author] = get(this, 'props.data.allContentfulPerson.edges')
-
+    const maxValue = 4;
+    
     return (
       <Layout location={this.props.location}>
         <div style={{ background: '#fff' }}>
           <Helmet title={siteTitle} />
           <Hero data={author.node} />
           <div className="wrapper">
-            <h2 className="section-headline">Recent articles</h2>
+            <h2 className="section-headline"><Link to="/blog/" style={{ textDecoration: 'none' }}>Recent articles</Link></h2>
             <ul className="article-list">
-              {posts.map(({ node }) => {
+              {posts.slice(0,maxValue).map(({ node }) => {
                 return (
                   <li key={node.slug}>
                     <ArticlePreview article={node} />
@@ -28,6 +31,20 @@ class RootIndex extends React.Component {
                 )
               })}
             </ul>
+            <p className="next-link"><Link to="/blog/">Read more ></Link></p>
+          </div>
+          <div className="wrapper">
+            <h2 className="section-headline"><Link to="/things/" style={{ textDecoration: 'none' }}>Things</Link></h2>
+            <ul className="article-list">
+              {thingsPosts.slice(0,maxValue).map(({ node }) => {
+                return (
+                  <li key={node.slug}>
+                    <ThingsArticlePreview article={node} />
+                  </li>
+                )
+              })}
+            </ul>
+            <p className="next-link"><Link to="/things/">Read more ></Link></p>
           </div>
         </div>
       </Layout>
@@ -47,7 +64,7 @@ export const pageQuery = graphql`
           publishDate(formatString: "MMMM Do, YYYY")
           tags
           heroImage {
-            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
+            fluid(maxWidth: 250, maxHeight: 250, resizingBehavior: SCALE) {
               ...GatsbyContentfulFluid_tracedSVG
             }
           }
@@ -77,6 +94,26 @@ export const pageQuery = graphql`
               background: "rgb:000000"
             ) {
               ...GatsbyContentfulFluid_tracedSVG
+            }
+          }
+        }
+      }
+    }
+    allContentfulThingsPost(sort: { fields: [publishDate], order: DESC }) {
+      edges {
+        node {
+          title
+          slug
+          publishDate(formatString: "MMMM Do, YYYY")
+          tags
+          heroImage {
+            fluid(maxWidth: 250, maxHeight: 250, resizingBehavior: SCALE) {
+              ...GatsbyContentfulFluid_tracedSVG
+            }
+          }
+          description {
+            childMarkdownRemark {
+              html
             }
           }
         }

@@ -1,5 +1,5 @@
 import React from 'react'
-import './base.css'
+import '../styles/base.scss'
 import Container from './container'
 import Navigation from './navigation'
 
