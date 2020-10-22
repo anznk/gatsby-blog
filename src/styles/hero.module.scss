@@ -1,8 +1,28 @@
 .hero {
   position: relative;
-  background: #000;
+  background: #FCFCFB;
   color: #fff;
   text-align: center;
+}
+.picture{
+  height: 400px;
+  background-image: url("../img/GreenLeaves.jpg");
+  background-size: cover;
+
+}
+.square{
+  height: 0; 
+  width: 40%;
+  border-bottom: 400px solid #E7DDBD;
+  border-right: 200px solid transparent;
+  z-index: -1;
+  p{
+    color: #7d695f;
+    text-align: center;
+    font-size: 40px;
+    padding-top: 35%;
+    padding-left: 20%;
+  }
 }
 
 .heroImage {

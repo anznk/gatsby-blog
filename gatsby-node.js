@@ -12,17 +12,6 @@ exports.createPages = ({ graphql, actions }) => {
         `
           {
             allContentfulBlogPost {
-              group(field:tags) {
-                fieldValue
-              }
-              edges {
-                node {
-                  title
-                  slug
-                }
-              }
-            }
-            allContentfulThingsPost {
               edges {
                 node {
                   title
@@ -41,18 +30,26 @@ exports.createPages = ({ graphql, actions }) => {
         const posts = result.data.allContentfulBlogPost.edges
         posts.forEach(post => {
           createPage({
-            path: `/blog/${post.node.slug}/`,
+            path: `/all/${post.node.slug}/`,
             component: blogPost,
             context: {
               slug: post.node.slug,
             },
           })
         })
-        const thingsPosts = result.data.allContentfulThingsPost.edges
-        thingsPosts.forEach(post => {
+        posts.forEach(post => {
           createPage({
             path: `/things/${post.node.slug}/`,
-            component: thingsPost,
+            component: blogPost,
+            context: {
+              slug: post.node.slug,
+            },
+          })
+        })
+        posts.forEach(post => {
+          createPage({
+            path: `/food/${post.node.slug}/`,
+            component: blogPost,
             context: {
               slug: post.node.slug,
             },

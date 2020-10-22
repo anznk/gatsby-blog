@@ -8,3 +8,24 @@
   font-size: 2em;
   overflow: hidden;
 }
+.picture{
+  height: 400px;
+  background-image: url("../img/Flowers.jpg");
+  background-size: cover;
+  background-position:center center;
+
+}
+.square{
+  height: 0; 
+  width: 45%;
+  border-top: 400px solid #6E9084;
+  border-right: 100px solid transparent;
+  z-index: -1;
+  p{
+    color: #E7DDBD;
+    position: absolute;
+    top: 22%;
+    left: 25%;
+    font-size: 40px;
+  }
+}

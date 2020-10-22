@@ -67,3 +67,7 @@ typings/
 .contentful.json
 # Local Netlify folder
 .netlify
+
+# env file
+.env.development
+.env.production

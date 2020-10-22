@@ -2,27 +2,36 @@ import React from 'react'
 import { graphql, Link } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
-import Hero from '../components/hero'
+import Footer from '../components/footer'
 import Layout from '../components/layout'
-import ArticlePreview from '../components/article-preview'
-import ThingsArticlePreview from '../components/things-article-preview'
+import ArticlePreview from '../components/index-article-preview'
+import ThingsPreview from '../components/index-things-preview'
+import FoodPreview from '../components/index-food-preview'
+import Hero from '../components/hero'
 
 class RootIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
-    const thingsPosts = get(this, 'props.data.allContentfulThingsPost.edges')
     const [author] = get(this, 'props.data.allContentfulPerson.edges')
     const maxValue = 4;
-    
+    const things = "things";
+    const food = "food";
+    const postThings = posts.filter(node => {
+      return node.node.category === things;
+    });
+    const postFood = posts.filter(node => {
+      return node.node.category === food;
+    });
+
     return (
       <Layout location={this.props.location}>
-        <div style={{ background: '#fff' }}>
+        <div style={{ background: '#FCFCFB' }}>
           <Helmet title={siteTitle} />
           <Hero data={author.node} />
           <div className="wrapper">
-            <h2 className="section-headline"><Link to="/blog/" style={{ textDecoration: 'none' }}>Recent articles</Link></h2>
-            <ul className="article-list">
+            <h2 className="section-headline"><Link to="/all/" style={{ textDecoration: 'none' }}>All articles</Link></h2>
+            <ul className="article-list-index">
               {posts.slice(0,maxValue).map(({ node }) => {
                 return (
                   <li key={node.slug}>
@@ -31,25 +40,42 @@ class RootIndex extends React.Component {
                 )
               })}
             </ul>
-            <p className="next-link"><Link to="/blog/">Read more ></Link></p>
+            <p className="next-link"><Link to="/all/">Read more ></Link></p>
           </div>
           <div className="wrapper">
             <h2 className="section-headline"><Link to="/things/" style={{ textDecoration: 'none' }}>Things</Link></h2>
-            <ul className="article-list">
-              {thingsPosts.slice(0,maxValue).map(({ node }) => {
+            <ul className="article-list-index">
+              {postThings.slice(0,maxValue).map(({ node }) => {
                 return (
                   <li key={node.slug}>
-                    <ThingsArticlePreview article={node} />
+                    <ThingsPreview article={node} />
                   </li>
                 )
               })}
             </ul>
             <p className="next-link"><Link to="/things/">Read more ></Link></p>
           </div>
+          <div className="wrapper">
+            <h2 className="section-headline"><Link to="/food/" style={{ textDecoration: 'none' }}>Food</Link></h2>
+            <ul className="article-list-index">
+              {postFood.slice(0,maxValue).map(({ node }) => {
+                if (node.category === 'food') {
+                  return (
+                    <li key={node.slug}>
+                      <FoodPreview article={node} />
+                    </li>
+                  )
+                }
+              })}
+            </ul>
+            <p className="next-link"><Link to="/food/">Read more ></Link></p>
+          </div>
         </div>
+        <Footer data={author.node} />
       </Layout>
     )
   }
+
 }
 
 export default RootIndex
@@ -63,8 +89,9 @@ export const pageQuery = graphql`
           slug
           publishDate(formatString: "MMMM Do, YYYY")
           tags
+          category
           heroImage {
-            fluid(maxWidth: 250, maxHeight: 250, resizingBehavior: SCALE) {
+            fluid(maxWidth: 240, maxHeight: 240, resizingBehavior: SCALE) {
               ...GatsbyContentfulFluid_tracedSVG
             }
           }
@@ -88,7 +115,7 @@ export const pageQuery = graphql`
           title
           heroImage: image {
             fluid(
-              maxWidth: 1180
+              maxWidth: 1500
               maxHeight: 480
               resizingBehavior: PAD
               background: "rgb:000000"
@@ -99,25 +126,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allContentfulThingsPost(sort: { fields: [publishDate], order: DESC }) {
-      edges {
-        node {
-          title
-          slug
-          publishDate(formatString: "MMMM Do, YYYY")
-          tags
-          heroImage {
-            fluid(maxWidth: 250, maxHeight: 250, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
-            }
-          }
-          description {
-            childMarkdownRemark {
-              html
-            }
-          }
-        }
-      }
-    }
+    
+
   }
 `
