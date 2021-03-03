@@ -22,7 +22,6 @@ class ThingsIndex extends React.Component {
               <p>Things</p>
             </div>
           </div>
-          {/* <div className={styles.hero}>Things</div> */}
           <div className="wrapper">
             <h2 className="section-headline">Recent articles</h2>
             <ul className="article-list">
