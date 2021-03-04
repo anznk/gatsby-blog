@@ -7,6 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const blogPost = path.resolve('./src/templates/blog-post.js')
     const thingsPost = path.resolve('./src/templates/things-post.js')
+    const foodPost = path.resolve('./src/templates/food-post.js')
     resolve(
       graphql(
         `
@@ -40,7 +41,7 @@ exports.createPages = ({ graphql, actions }) => {
         posts.forEach(post => {
           createPage({
             path: `/things/${post.node.slug}/`,
-            component: blogPost,
+            component: thingsPost,
             context: {
               slug: post.node.slug,
             },
@@ -49,7 +50,7 @@ exports.createPages = ({ graphql, actions }) => {
         posts.forEach(post => {
           createPage({
             path: `/food/${post.node.slug}/`,
-            component: blogPost,
+            component: foodPost,
             context: {
               slug: post.node.slug,
             },
