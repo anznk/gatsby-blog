@@ -59,13 +59,13 @@ class RootIndex extends React.Component {
             <h2 className="section-headline"><Link to="/food/" style={{ textDecoration: 'none' }}>Food</Link></h2>
             <ul className="article-list-index">
               {postFood.slice(0,maxValue).map(({ node }) => {
-                if (node.category === 'food') {
+                // if (node.category === 'food') {
                   return (
                     <li key={node.slug}>
                       <FoodPreview article={node} />
                     </li>
                   )
-                }
+                // }
               })}
             </ul>
             <p className="next-link"><Link to="/food/">Read more ></Link></p>
